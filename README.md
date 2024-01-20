@@ -1,6 +1,7 @@
 # displayPM
 
-A display for sensor.community
+A display for sensor.community.
+
 This is my first project on github, so sorry if not all rules here are respected.
 I'm not new to programming, in fact I wrote my first program in assembler 8085 back in 1977.
 In 2019 the need arised to show measured PM values from the Luftdaten network, now sensor.community, 
