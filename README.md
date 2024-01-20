@@ -30,9 +30,7 @@ to show only the mean value, and the exceptions with their identification.
 More new features will follow:
 
 - Showing results from the DNMS system (digital noise measuring system) from sensor.community.
-- 
 - Showing the results of Telraam, another project here in Belgium, to count traffic according category.
-- 
 - A web interface for configuring, as the configuration now is through editing the sourcecode & recompiling,
   limiting the rollout by non-programmers.
 
