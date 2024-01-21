@@ -42,3 +42,5 @@ Extensions & corrections to the sourcecode will be made public through this chan
 Software falls under the GNU public Licence, for use in citizen science projects.
 If you modify the main program, please send me a copy of your finished work at rik.drabs@gmail.com,
 so that interesting things can get published through this channel.
+
+In no way modify the main branch yourself.
