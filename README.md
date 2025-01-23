@@ -10,8 +10,9 @@ What's new:
 - Showing results from the DNMS system (digital noise measuring system) from sensor.community.
 - Showing the results of Telraam, another project here in Belgium, to count traffic according to category of vehicle.
 
-Building & explaining sessions will be held starting starting Januari, 2025 in HackerSpace Brussels, Osseghemstraat 53, 
+Building & explaining sessions will be held starting starting Februari, 2025 in HackerSpace Brussels, Osseghemstraat 53, 
 1060 Molenbeek-Belgium. If you want to participate, please enroll via https://www.meetup.com/nl-NL/civic-lab-brussels/
+If you're at the gate, call me 0475/70.72.60.
 
 Extensions & corrections to the sourcecode will be made public through this channel.
 Software falls under the GNU public Licence, for use in citizen science projects.
