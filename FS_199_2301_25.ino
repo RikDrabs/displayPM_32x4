@@ -84,7 +84,7 @@
 #include  <pgmspace.h>
 
 // Increment on release        x.xx
-#define SOFTWARE_VERSION_STR "v1.99 BETA"
+#define SOFTWARE_VERSION_STR "v1.99 Beta"
 String  SOFTWARE_VERSION (SOFTWARE_VERSION_STR);
 
 /*
