@@ -1,5 +1,4 @@
-
-A PM/VOC/NOx/DNMS/TELRAAM display with an NTP clock
+PM/VOC/NOx/DNMS/TELRAAM display with an NTP clock
 
 # displayPM_32x4
 
