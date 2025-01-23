@@ -28,8 +28,7 @@ In no way modify this main branch yourself.
 * Time adjusted for local time zone, and daylight saving time.
 * Integration in Sensor.Community (formerly Luftdaten.Info)
 * Configuration via WiFi in local network or with a Sensor-like Access-Point
-* Show the measurements of up to 32*4 sensor API-ID's from the Sensor.Community network, 
-* from up to 32 different locations.
+* Show the measurements of up to 32*4 sensor API-ID's from the Sensor.Community network, from up to 32 different locations.
 * A few functions: 
   - Supervision of a list of up to 32 locations with up to 4 local sensors each, 
     with comprehensive messaging.
