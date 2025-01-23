@@ -134,8 +134,8 @@ Timezone    myTZ;                           // Local time zone
 
 // Uncomment the wanted language.
 //#include "intl-nl.h"                        // DUTCH
-#include "intl-fr.h"                        // FRENCH
-//#include "intl-en.h"                        // ENGLISH
+//#include "intl-fr.h"                        // FRENCH
+#include "intl-en.h"                        // ENGLISH
 //#include "intl-ge.h"                        // GERMAN
 //#include "intl-it.h"                        // ITALIAN
 //#include "intl-es.h"                        // SPANISH
