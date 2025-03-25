@@ -1,3 +1,6 @@
+// Define the number of display devices we have in the chain
+#define MAX_DEVICES       16          // number of LED display blocks 8*8
+
 //                       "0         1         2         3         4         5 "
 //                       "0123456789012345678901234567890123456789012345678901"
 

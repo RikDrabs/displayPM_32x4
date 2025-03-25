@@ -1,16 +1,5 @@
-// Wifi config
-const char WLANSSID[] PROGMEM =       "Ascheweg Lamotte";
-const char WLANPWD[]  PROGMEM =       "DcZdNk1V2d3D4u5I6v7E8l";
-//const char WLANSSID[] PROGMEM =       "4G-MIFI-88C";
-//const char WLANPWD[]  PROGMEM =       "1234567890";
-//const char WLANSSID[] PROGMEM =       "UZBrussel_PubliekInternet";
-//const char WLANPWD[]  PROGMEM =       ""; 
-//const char WLANSSID[] PROGMEM =       "Android_Rik";
-//const char WLANPWD[]  PROGMEM =       "kasumaikeb"; 
-//const char WLANSSID[] PROGMEM =       "HSBXL";
-//const char WLANPWD[]  PROGMEM =       "CLUBMATE2010";
-//const char WLANSSID[] PROGMEM =       "telenet-45EAC75";
-//const char WLANPWD[]  PROGMEM =       "ruaUn76yeXbf";
+// Default WiFi network
+#include "./WiFiAP.h"
 
 // BasicAuth config
 const char WWW_USERNAME[] PROGMEM =   "admin";
@@ -19,6 +8,28 @@ const char WWW_PASSWORD[] PROGMEM =   "admin";
 // Sensor Wifi config (AP config mode)
 #define FS_SSID           "DisplayPM"
 #define FS_PWD            ""
+
+// Default locations & sensors, choose at will
+// or add your own file, with "sens_blank.h" as template or "sens_demo.h" as example.
+
+//#include "./sens-intl.h" 
+//#include "./sens-blank.h" 
+#include "./sens-lamotte.h"
+//#include "./sens-poincare.h"
+//#include "./sens-jeker.h" 
+//#include "./sens-test.h" 
+//#include "./sens-kortrijk.h"
+//#include "./sens-dilbeek.h"
+
+// API address Sensor.community
+#define SENSOR_API        "http://data.sensor.community/airrohr/v1/sensor/" 
+#define LEN_API           64          // Maximum length API URL
+
+// API address & key Telraam
+#define TELRAAM_API       "https://telraam-api.net/v1/reports/traffic/"
+#define TELRAAM_TOKEN     "X7PAAVzTBo2p70ti5nOPU8G5llHOdg5o62TH2EU3"
+#define LEN_TOKEN         48          // Maximum length token
+#define FREE_TOKEN        true        // Telraam free API token
 
 #define WWW_BASICAUTH_ENABLED         false
 #define TIME_FOR_WIFI_CONFIG          600000
@@ -32,9 +43,6 @@ const char WWW_PASSWORD[] PROGMEM =   "admin";
 
 // Default timezone
 #define TIMEZONESTR       "Europe/Brussels"
-
-// Define the number of display devices we have in the chain
-#define MAX_DEVICES       16          // number of LED display blocks 8*8
 
 // Parola display moduletype selection
 // On 2 input bits, provide pull-up & pull-down resistors !
@@ -52,16 +60,6 @@ const char WWW_PASSWORD[] PROGMEM =   "admin";
 #define CLK_PIN           D5          // ESP8266 pin to CLOCK-pin display
 #define DATA_PIN          D7          // ESP8266 pin to DATA-pin display
 #define CS_PIN            D8          // ESP8266 pin to CS-pin display
-
-// API address Sensor.community
-#define SENSOR_API        "http://data.sensor.community/airrohr/v1/sensor/" 
-#define LEN_API           64          // Maximum length API URL
-
-// API address & key Telraam
-#define TELRAAM_API       "https://telraam-api.net/v1/reports/traffic/"
-#define TELRAAM_TOKEN     "X7PAAVzTBo2p70ti5nOPU8G5llHOdg5o62TH2EU3"
-#define LEN_TOKEN         48          // Maximum length token
-#define FREE_TOKEN        true        // Telraam free API token
 
 // Spiffs filenames
 #define CONFIG_NAME       "/config"
@@ -89,20 +87,6 @@ const char WWW_PASSWORD[] PROGMEM =   "admin";
 #define MINIMUM_HEAP_TELRAAM     18000         // min. heap for telraam API data exchange
 #define MAXIMUM_TIME_HEAP_UNDER  (1000*60*15)  // max. milliseconds heap too low for telraam (15 min.)
 #define MINIMUM_HEAP_RESTART     6000          // min. heap before restart 
-
-//=====================================
-// Default locations & sensors, choose at will
-// or add your own file, with "sens_blank.h" as template
-// or "sens_demo.h" as example.
-//
-//#include "./sens-intl.h" 
-//#include "./sens-blank.h" 
-//#include "./sens-lamotte.h"
-//#include "./sens-poincare.h"
-//#include "./sens-jeker.h" 
-//#include "./sens-test.h" 
-#include "./sens-kortrijk.h"
-//=====================================
 
 // Settings
 #define CLOCKSECONDS      10          // Clock seconds on display
@@ -140,13 +124,6 @@ const char WWW_PASSWORD[] PROGMEM =   "admin";
 #define SHOWSPEED         false       // true = show Telraam Pedestrian data.
 #define SENSORMISSING     false       // true = show missing meters in multi-configuration
 #define MULTIAVERAGE      false       // true = show multi-list average
-
-// Reference station
-#define NAME_REF          "Dilbeek-SUK"
-#define PM_DRYREF         "12345"
-#define HUMI_DRYREF       "12346"
-#define PM_WETREF         "12347"
-#define HUMI_WETREF       "12348"
 
 // Debug settings
 #define DEBUGSHOWDATA     false       // true = debug show data

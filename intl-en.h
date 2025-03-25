@@ -1,7 +1,7 @@
 #include <pgmspace.h> 
 
 #define    INTL_LANG                              "EN"  
-//           -
+// 
 const char INTL_SAVE_CONFIG[] PROGMEM =           "Save configuration";
 const char INTL_SAVE_RESTART[] PROGMEM =          "Save configuration & Restart";
 const char INTL_WRITECONFIG[] PROGMEM =           "Writing config files";
@@ -54,6 +54,7 @@ const char INTL_SCAN_NUM[] PROGMEM =              "Scan# ";
 const char INTL_LOC_NAME[] PROGMEM =              " Location name: ";
 const char INTL_SENSOR_URL[] PROGMEM =            "Sensor @URL: ";
 const char INTL_PMPARSING_ERR[] PROGMEM =         "PM Json parsing error: ";
+const char INTL_HTTPCODE_ERR[] PROGMEM =          "HTTP error code: ";
 //
 #define    INTL_AVG24H_PM25                       "Avg. 24h PM2,5: "
 #define    INTL_AVG24H_PM10                       "Avg. 24h PM10: "
@@ -80,7 +81,7 @@ const char INTL_PMPARSING_ERR[] PROGMEM =         "PM Json parsing error: ";
 //
 #define    INTL_DISPLAY                           "Sensor.Community Display"
 #define    INTL_BACK_TO_HOME_PAGE                 "Back to home page"
-#define    INTL_BACK_TO_HOME_PAGE_DISCARD         "Discard changes"
+#define    INTL_BACK_TO_HOME_PAGE_DISCARD         "Back to home page / Discard changes"
 #define    INTL_CONFIGURATION_REALLY_DELETE       "You really want to delete the configuration?"
 #define    INTL_DELETE                            "Delete"
 #define    INTL_CANCEL                            "Cancel"
@@ -104,10 +105,10 @@ const char INTL_ALERT[] PROGMEM =                 "Alerts";
 const char INTL_PM[] PROGMEM =                    "Choose PM for peak & average values...";
 // 
 #define    INTL_HOME                              "Home"
-const char INTL_CURRENT_DATA[] PROGMEM =          "Last values";
+const char INTL_CURRENT_DATA[] PROGMEM =          "Current data";
 const char INTL_CONFIGURATION[] PROGMEM =         "Configuration";
 const char INTL_ADVANCED_SETTINGS[] PROGMEM =     "Advanced settings";
-const char INTL_DELETE_CONFIG[] PROGMEM =         "Delete saved configuration";
+const char INTL_DELETE_CONFIG[] PROGMEM =         "Delete configuration";
 const char INTL_RESTART_DISPLAY[] PROGMEM =       "Restart display";
 // 
 const char INTL_WIFI_SETTINGS[] PROGMEM =         "WiFi settings";
@@ -123,11 +124,11 @@ const char INTL_FS_WIFI_DESCRIPTION[] PROGMEM =   "AP in configuration mode";
 const char INTL_NO_NETWORKS[] PROGMEM =           "No WiFi network found";
 const char INTL_NETWORKS_FOUND[] PROGMEM =        "WiFi networks found: ";
 // 
-#define    INTL_WIFI_CONNECTION_LOST              "WiFi connection lost"
+#define    INTL_WIFI_CONNECTION_LOST              "Connection lost"
 #define    INTL_WIFI_CONNECT_TO                   "Please connect to:"
-#define    INTL_WIFI_SSID                         "ssid: "
+#define    INTL_WIFI_SSID                         "SSID: "
 #define    INTL_WIFI_WIFI                         "WiFi: " 
-#define    INTL_CONFIG_BUSY                       "Config busy"
+#define    INTL_CONFIG_BUSY                       "Config in progress"
 #define    INTL_PLEASE_RESTART                    "Please restart"
 // 
 const char INTL_LOCATION_0_15[] PROGMEM =         "Location 0-15";
@@ -187,17 +188,6 @@ const char INTL_MAXGRAPH_PM10[] PROGMEM =         "PM10 value for 200% (full) gr
 const char INTL_COMPARELOCATION[] PROGMEM =       "Compare location (valid = 0 to 31)";
 const char INTL_COMPARELOCATION2[] PROGMEM =      "Compare location 2 (valid = 0 to 31)";
 const char INTL_PMCHOICE[] PROGMEM =              "PM size for average, peak & graphics (default PM2,5)";
-// 
-const char INTL_PM_HUMI_TABLE[] PROGMEM =         "HUMIDITY";
-const char INTL_CORRECTHUMI[] PROGMEM =           " Correct PM for humidity";
-const char INTL_INTELLIHUMI[] PROGMEM =           " Intelligent humidity between multiple meters";
-const char INTL_CORRECTHUMI_TITLE[] PROGMEM =     "Humidity correction on PM";
-const char INTL_REFERENCE_STATION[] PROGMEM =     "Local reference station";
-const char INTL_REFERENCE_NAME[] PROGMEM =        "Reference station name";
-const char INTL_PM_DRYREFERENCE[] PROGMEM =       "API-ID PM dry reference"; 
-const char INTL_HUMI_DRYREFERENCE[] PROGMEM =     "API-ID MOISTURE dry reference"; 
-const char INTL_PM_WETREFERENCE[] PROGMEM =       "API-ID PM wet reference";
-const char INTL_HUMI_WETREFERENCE[] PROGMEM =     "API-ID MOISTURE. wet reference";
 // 
 const char INTL_AQI_WHO_TABLE[] PROGMEM =         "AQI & WHO";
 const char INTL_AQI_TABLE_TITLE[] PROGMEM =       "Translating AQI levels to COLOR";
@@ -279,6 +269,8 @@ char *dotMatrixText[] = {
   "Weather: ",             
   "VOC & NOx index: ",              // 30
   "Reading...",
+  "Server down...",
+  "No internet...",
 };  
 
 // Compare strings
@@ -296,9 +288,6 @@ char *compareText[] = {
 
 // Text strings for AQI warning system
 char *AQItext[] = {  
-//"0         1         2         3         4         5         6         7         8         9         0         1"
-//"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" 
-//"==============================================================================================================="
   "AQI index GREEN:  The air quality is satisfactory, and adverse health effects are not expected.", 
   "AQI index YELLOW: The air quality is moderate. WHO pollution limits are breached.",         
   "AQI index ORANGE: The air is unhealthy for sensitive groups.",                       
@@ -308,9 +297,6 @@ char *AQItext[] = {
 
 // Text strings for WHO warning system
 char *WHOtext[] = {  
-//"0         1         2         3         4         5         6         7         8         9         0         1"
-//"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" 
-//"==============================================================================================================="  
   "WHO index GREEN: The average over 24h. shows good air quality.",                     
   "WHO index YELLOW: The average over 24h. shows moderate air quality.",      
   "WHO index ORANGE: The average over 24h. shows unhealthy air quality.",     

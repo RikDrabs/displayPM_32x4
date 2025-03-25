@@ -69,8 +69,6 @@ enum ConfigShapeId {
 	Config_showPmPm,
 	Config_showPm1Pm4,
 	Config_showMeteo,
-	Config_intelliHumi,
-	Config_correctHumi,
 	Config_showGraph,
 	Config_showAvgNpeak,
 	Config_showComp,
@@ -266,11 +264,6 @@ enum ConfigShapeId {
 	Config_sensorApi2_31,
 	Config_sensorApi3_31,
 	Config_sensorApi4_31,
-	Config_nameRef,
-	Config_pmDryRef,
-	Config_humiDryRef,
-	Config_pmWetRef,
-	Config_humiWetRef,
 };
 static constexpr char CFG_KEY_PAUSETIME[] PROGMEM = "pauseTime";
 static constexpr char CFG_KEY_DISPLAYSPEED[] PROGMEM = "displaySpeed";
@@ -316,8 +309,6 @@ static constexpr char CFG_KEY_MULTICOMPARE[] PROGMEM = "multiCompare";
 static constexpr char CFG_KEY_SHOWPMPM[] PROGMEM = "showPmPm";
 static constexpr char CFG_KEY_SHOWPM1PM4[] PROGMEM = "showPm1Pm4";
 static constexpr char CFG_KEY_SHOWMETEO[] PROGMEM = "showMeteo";
-static constexpr char CFG_KEY_INTELLIHUMI[] PROGMEM = "intelliHumi";
-static constexpr char CFG_KEY_CORRECTHUMI[] PROGMEM = "correctHumi";
 static constexpr char CFG_KEY_SHOWGRAPH[] PROGMEM = "showGraph";
 static constexpr char CFG_KEY_SHOWAVGNPEAK[] PROGMEM = "showAvgNpeak";
 static constexpr char CFG_KEY_SHOWCOMP[] PROGMEM = "showComp";
@@ -513,11 +504,6 @@ static constexpr char CFG_KEY_SENSORAPI1_31[] PROGMEM = "sensorApi1_31";
 static constexpr char CFG_KEY_SENSORAPI2_31[] PROGMEM = "sensorApi2_31";
 static constexpr char CFG_KEY_SENSORAPI3_31[] PROGMEM = "sensorApi3_31";
 static constexpr char CFG_KEY_SENSORAPI4_31[] PROGMEM = "sensorApi4_31";
-static constexpr char CFG_KEY_NAMEREF[] PROGMEM = "nameRef";
-static constexpr char CFG_KEY_PMDRYREF[] PROGMEM = "pmDryRef";
-static constexpr char CFG_KEY_HUMIDRYREF[] PROGMEM = "humiDryRef";
-static constexpr char CFG_KEY_PMWETREF[] PROGMEM = "pmWetRef";
-static constexpr char CFG_KEY_HUMIWETREF[] PROGMEM = "humiWetRef";
 static constexpr ConfigShapeEntry configShape[] PROGMEM = {
 	{ Config_Type_UInt, 0, CFG_KEY_PAUSETIME, &cfg::pauseTime },
 	{ Config_Type_UInt, 0, CFG_KEY_DISPLAYSPEED, &cfg::displaySpeed },
@@ -563,8 +549,6 @@ static constexpr ConfigShapeEntry configShape[] PROGMEM = {
 	{ Config_Type_Bool, 0, CFG_KEY_SHOWPMPM, &cfg::showPmPm },
 	{ Config_Type_Bool, 0, CFG_KEY_SHOWPM1PM4, &cfg::showPm1Pm4 },
 	{ Config_Type_Bool, 0, CFG_KEY_SHOWMETEO, &cfg::showMeteo },
-	{ Config_Type_Bool, 0, CFG_KEY_INTELLIHUMI, &cfg::intelliHumi },
-	{ Config_Type_Bool, 0, CFG_KEY_CORRECTHUMI, &cfg::correctHumi },
 	{ Config_Type_Bool, 0, CFG_KEY_SHOWGRAPH, &cfg::showGraph },
 	{ Config_Type_Bool, 0, CFG_KEY_SHOWAVGNPEAK, &cfg::showAvgNpeak },
 	{ Config_Type_Bool, 0, CFG_KEY_SHOWCOMP, &cfg::showComp },
@@ -760,9 +744,4 @@ static constexpr ConfigShapeEntry configShape[] PROGMEM = {
 	{ Config_Type_String, sizeof(cfg::sensorApi2_31)-1, CFG_KEY_SENSORAPI2_31, cfg::sensorApi2_31 },
 	{ Config_Type_String, sizeof(cfg::sensorApi3_31)-1, CFG_KEY_SENSORAPI3_31, cfg::sensorApi3_31 },
 	{ Config_Type_String, sizeof(cfg::sensorApi4_31)-1, CFG_KEY_SENSORAPI4_31, cfg::sensorApi4_31 },
-	{ Config_Type_String, sizeof(cfg::nameRef)-1, CFG_KEY_NAMEREF, cfg::nameRef },
-	{ Config_Type_String, sizeof(cfg::pmDryRef)-1, CFG_KEY_PMDRYREF, cfg::pmDryRef },
-	{ Config_Type_String, sizeof(cfg::humiDryRef)-1, CFG_KEY_HUMIDRYREF, cfg::humiDryRef },
-	{ Config_Type_String, sizeof(cfg::pmWetRef)-1, CFG_KEY_PMWETREF, cfg::pmWetRef },
-	{ Config_Type_String, sizeof(cfg::humiWetRef)-1, CFG_KEY_HUMIWETREF, cfg::humiWetRef },
 };

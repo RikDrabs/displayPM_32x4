@@ -406,7 +406,7 @@ static void end_html_page(String &page_content, bool showBackButton)
   {
     server.sendContent_P(WEB_PAGE_FOOTER1);
   }  
-  server.sendContent_P(WEB_PAGE_FOOTER);
+  server.sendContent_P(WEB_PAGE_FOOTER_INFO);
 }
 
 // Construct bottom part screen
@@ -420,7 +420,7 @@ static void end_html_page_discard(String &page_content)
   {
     server.sendContent_P(WEB_PAGE_FOOTER2);
   }
-  server.sendContent_P(WEB_PAGE_FOOTER);
+  server.sendContent_P(WEB_PAGE_FOOTER_INFO);
 }
 
 // Add title row to location / sensors table
@@ -1017,7 +1017,9 @@ static void webserver_config_send_body_get(String &page_content)
 
   page_content += FPSTR(TABLE_TAG_OPEN);
   add_form_checkbox(Config_multiCompare, FPSTR(INTL_MULTICOMPARE));
-  add_form_checkbox(Config_sensorMissing, FPSTR(INTL_SENSORMISSING));    
+  add_form_checkbox(Config_multiAverage, FPSTR(INTL_MULTIAVERAGE));  
+  add_form_checkbox(Config_sensorMissing, FPSTR(INTL_SENSORMISSING));
+  add_form_checkbox(Config_showMeteo, FPSTR(INTL_SHOWMETEO));      
   add_form_checkbox(Config_showPmPm, FPSTR(INTL_SHOWPMPM));
   add_form_checkbox(Config_showPm1Pm4, FPSTR(INTL_SHOWPM1PM4));
 
@@ -1026,11 +1028,9 @@ static void webserver_config_send_body_get(String &page_content)
     add_form_checkbox(Config_showComp, FPSTR(INTL_SHOWCOMP));
     add_form_checkbox(Config_showCompInside, FPSTR(INTL_SHOWCOMPINSIDE));
   }
-  add_form_checkbox(Config_showMeteo, FPSTR(INTL_SHOWMETEO));
   add_form_checkbox(Config_showGraph, FPSTR(INTL_SHOWGRAPH));
   add_form_checkbox(Config_showAqiAdvice, FPSTR(INTL_SHOWAQIADVICE));
   add_form_checkbox(Config_showWhoAdvice, FPSTR(INTL_SHOWWHOADVICE));
-  add_form_checkbox(Config_multiAverage, FPSTR(INTL_MULTIAVERAGE));
   add_form_checkbox(Config_showAvgNpeak, FPSTR(INTL_SHOWAVGNPEAK));
   add_form_checkbox(Config_showDnms, FPSTR(INTL_SHOWDNMS));
   add_form_checkbox(Config_showTelRaam, FPSTR(INTL_SHOWTELRAAM));
@@ -1266,18 +1266,14 @@ static void webserver_param_send_body(String &page_content)
   page_content += F("</label>"
 
                     "<label class='tab' id='tab2' for='r2'>");
-  page_content += FPSTR(INTL_PM_HUMI_TABLE);
-  page_content += F("</label>"  
-
-                    "<label class='tab' id='tab3' for='r3'>");
   page_content += FPSTR(INTL_AQI_WHO_TABLE);
   page_content += F("</label>"
 
-                    "<label class='tab' id='tab4' for='r4'>");
+                    "<label class='tab' id='tab3' for='r3'>");
   page_content += FPSTR(INTL_NOISE_TRAFFIC_TABLE);
   page_content += F("</label>"
 
-                    "<label class='tab' id='tab5' for='r5'>");
+                    "<label class='tab' id='tab4' for='r4'>");
   page_content += FPSTR(INTL_TRAFFIC_PARAMS);
   page_content += F("</label></div>");
 
@@ -1319,42 +1315,8 @@ static void webserver_param_send_body(String &page_content)
   //
   server.sendContent(page_content);
 
-  // ===== Tab 2  HUMIDITY table
+  // ===== Tab 2  AQI & WHO table
   page_content = tmpl(FPSTR(WEB_DIV_PANEL), String(2));
-  //
-  page_content += FPSTR(WEB_BR_LF_B);
-  page_content += FPSTR(INTL_AB_HIER_NUR_ANDERN);  
-  page_content += FPSTR(WEB_B_BR);
-  page_content += FPSTR(WEB_BR_LF_B);  
-  page_content += FPSTR(INTL_CORRECTHUMI_TITLE);
-  page_content += FPSTR(WEB_B_BR);
-  page_content += FPSTR(BR_TAG);
-  //
-  page_content += FPSTR(TABLE_TAG_OPEN);
-  add_form_checkbox(Config_correctHumi, FPSTR(INTL_CORRECTHUMI));  
-  add_form_checkbox(Config_intelliHumi, FPSTR(INTL_INTELLIHUMI));
-  page_content += FPSTR(TABLE_TAG_CLOSE_BR);
-  //
-  page_content += FPSTR(WEB_B_BR);  
-  page_content += F("<hr/>");
-  //
-  page_content += FPSTR(WEB_BR_LF_B);
-  page_content += FPSTR(INTL_REFERENCE_STATION);
-  page_content += FPSTR(WEB_B_BR);
-  page_content += FPSTR(BR_TAG);
-  //
-  page_content += FPSTR(TABLE_TAG_OPEN);
-  add_form_input(page_content, Config_nameRef, FPSTR(INTL_REFERENCE_NAME), LEN_LOCATION_NAME);  
-  add_form_input(page_content, Config_pmDryRef, FPSTR(INTL_PM_DRYREFERENCE), LEN_API);
-  add_form_input(page_content, Config_humiDryRef, FPSTR(INTL_HUMI_DRYREFERENCE), LEN_API);
-  add_form_input(page_content, Config_pmWetRef, FPSTR(INTL_PM_WETREFERENCE), LEN_API);
-  add_form_input(page_content, Config_humiWetRef, FPSTR(INTL_HUMI_WETREFERENCE), LEN_API);
-  page_content += FPSTR(TABLE_TAG_CLOSE_BR);
-  //
-  server.sendContent(page_content);
-
-  // ===== Tab 3  AQI & WHO table
-  page_content = tmpl(FPSTR(WEB_DIV_PANEL), String(3));
   //
   page_content += FPSTR(WEB_BR_LF_B);
   page_content += FPSTR(INTL_AB_HIER_NUR_ANDERN);  
@@ -1390,8 +1352,8 @@ static void webserver_param_send_body(String &page_content)
   //
   server.sendContent(page_content);
 
-  // ===== Tab 4  Noise & Traffic table
-  page_content = tmpl(FPSTR(WEB_DIV_PANEL), String(4));
+  // ===== Tab 3  Noise & Traffic table
+  page_content = tmpl(FPSTR(WEB_DIV_PANEL), String(3));
   //
   page_content += FPSTR(WEB_BR_LF_B);
   page_content += FPSTR(INTL_AB_HIER_NUR_ANDERN);
@@ -1430,8 +1392,8 @@ static void webserver_param_send_body(String &page_content)
   //
   server.sendContent(page_content);
 
-  // ===== Tab 5  Traffic params
-  page_content = tmpl(FPSTR(WEB_DIV_PANEL), String(5));
+  // ===== Tab 4  Traffic params
+  page_content = tmpl(FPSTR(WEB_DIV_PANEL), String(4));
   //
   page_content += FPSTR(WEB_BR_LF_B);
   page_content += FPSTR(INTL_AB_HIER_NUR_ANDERN);

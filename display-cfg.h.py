@@ -45,8 +45,6 @@ Bool            multiCompare
 Bool		showPmPm
 Bool            showPm1Pm4
 Bool		showMeteo
-Bool		intelliHumi
-Bool		correctHumi
 Bool            showGraph
 Bool		showAvgNpeak
 Bool 		showComp
@@ -242,11 +240,6 @@ String		sensorApi1_31
 String		sensorApi2_31
 String		sensorApi3_31
 String		sensorApi4_31
-String		nameRef
-String		pmDryRef
-String		humiDryRef
-String		pmWetRef
-String		humiWetRef
 """
 #can use Uchar? for 0-255 
 

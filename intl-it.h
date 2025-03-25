@@ -54,6 +54,7 @@ const char INTL_SCAN_NUM[] PROGMEM =              "Scansione n. ";
 const char INTL_LOC_NAME[] PROGMEM =              " Nome località: ";
 const char INTL_SENSOR_URL[] PROGMEM =            "Sensore @URL: ";
 const char INTL_PMPARSING_ERR[] PROGMEM =         "Errore di analisi Json di PM: ";
+const char INTL_HTTPCODE_ERR[] PROGMEM =          "Codice di errore HTTP: ";
 //
 #define    INTL_AVG24H_PM25                       "Media 24h PM2,5: "
 #define    INTL_AVG24H_PM10                       "Media 24h PM10: "
@@ -80,7 +81,7 @@ const char INTL_PMPARSING_ERR[] PROGMEM =         "Errore di analisi Json di PM:
 //
 #define    INTL_DISPLAY                           "Display Sensor.Community"
 #define    INTL_BACK_TO_HOME_PAGE                 "Torna alla pagina principale"
-#define    INTL_BACK_TO_HOME_PAGE_DISCARD         "Annulla modifiche"
+#define    INTL_BACK_TO_HOME_PAGE_DISCARD         "Torna alla pagina principale / Annulla modifiche"
 #define    INTL_CONFIGURATION_REALLY_DELETE       "Sei sicuro di voler eliminare la configurazione?"
 #define    INTL_DELETE                            "Elimina"
 #define    INTL_CANCEL                            "Annulla"
@@ -104,10 +105,10 @@ const char INTL_ALERT[] PROGMEM =                 "Avvisi";
 const char INTL_PM[] PROGMEM =                    "Scegli PM per valori di picco e medi...";
 // 
 #define    INTL_HOME                              "Home"
-const char INTL_CURRENT_DATA[] PROGMEM =          "Ultimi valori";
+const char INTL_CURRENT_DATA[] PROGMEM =          "Dati attuali";
 const char INTL_CONFIGURATION[] PROGMEM =         "Configurazione";
 const char INTL_ADVANCED_SETTINGS[] PROGMEM =     "Impostazioni avanzate";
-const char INTL_DELETE_CONFIG[] PROGMEM =         "Elimina configurazione salvata";
+const char INTL_DELETE_CONFIG[] PROGMEM =         "Elimina configurazione";
 const char INTL_RESTART_DISPLAY[] PROGMEM =       "Riavvia display";
 // 
 const char INTL_WIFI_SETTINGS[] PROGMEM =         "Impostazioni WiFi";
@@ -123,11 +124,11 @@ const char INTL_FS_WIFI_DESCRIPTION[] PROGMEM =   "AP in modalità configurazion
 const char INTL_NO_NETWORKS[] PROGMEM =           "Nessuna rete WiFi trovata";
 const char INTL_NETWORKS_FOUND[] PROGMEM =        "Reti WiFi trovate: ";
 // 
-#define    INTL_WIFI_CONNECTION_LOST              "Connessione WiFi persa"
+#define    INTL_WIFI_CONNECTION_LOST              "Connessione persa"
 #define    INTL_WIFI_CONNECT_TO                   "Connettiti a:"
-#define    INTL_WIFI_SSID                         "ssid: "
+#define    INTL_WIFI_SSID                         "SSID: "
 #define    INTL_WIFI_WIFI                         "WiFi: " 
-#define    INTL_CONFIG_BUSY                       "Configurazione in corso"
+#define    INTL_CONFIG_BUSY                       "Config in corso"
 #define    INTL_PLEASE_RESTART                    "Per favore riavvia"
 // 
 const char INTL_LOCATION_0_15[] PROGMEM =         "Posizione 0-15";
@@ -187,18 +188,7 @@ const char INTL_MAXGRAPH_PM10[] PROGMEM =         "Valore PM10 per grafico compl
 const char INTL_COMPARELOCATION[] PROGMEM =       "Confronta posizione (valido = da 0 a 31)";
 const char INTL_COMPARELOCATION2[] PROGMEM =      "Confronta posizione 2 (valido = da 0 a 31)";
 const char INTL_PMCHOICE[] PROGMEM =              "Dimensione PM per media, picco e grafici (predefinito PM2,5)";
-// 
-const char INTL_PM_HUMI_TABLE[] PROGMEM =         "UMIDITA";
-const char INTL_CORRECTHUMI[] PROGMEM =           " PM corretto per l'umidità";
-const char INTL_INTELLIHUMI[] PROGMEM =           " Umidità intelligente tra diversi sensori";
-const char INTL_CORRECTHUMI_TITLE[] PROGMEM =     "Correzione dell'umidità su PM";
-const char INTL_REFERENCE_STATION[] PROGMEM =     "Stazione di riferimento locale";
-const char INTL_REFERENCE_NAME[] PROGMEM =        "Nome della stazione di riferimento";
-const char INTL_PM_DRYREFERENCE[] PROGMEM =       "Riferimento secco API-ID PM";
-const char INTL_HUMI_DRYREFERENCE[] PROGMEM =     "Riferimento secco API-ID Umidità";
-const char INTL_PM_WETREFERENCE[] PROGMEM =       "Riferimento umido API-ID PM";
-const char INTL_HUMI_WETREFERENCE[] PROGMEM =     "Riferimento umido API-ID Umidità";
-// 
+//
 const char INTL_AQI_WHO_TABLE[] PROGMEM =         "AQI e OMS";
 const char INTL_AQI_TABLE_TITLE[] PROGMEM =       "Traduzione dei livelli AQI in COLORI";
 const char INTL_WHO_TABLE_TITLE[] PROGMEM =       "Traduzione dei livelli OMS in COLORI";
@@ -279,6 +269,8 @@ char *dotMatrixText[] = {
   "Tempo atmosferico: ",  
   "Indice COV e NOx: ",             // 30
   "Legge..."
+  "Server inattivo...", 
+  "Nessuna internet...", 
 };  
 
 // Compare strings
@@ -296,9 +288,6 @@ char *compareText[] = {
 
 // AQI strings 
 char *AQItext[] = {  
-//"0         1         2         3         4         5         6         7         8         9         0         1"
-//"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" 
-//"==============================================================================================================="
   "Indice IQA VERDE: La qualità dell'aria è buona. Non ci sono rischi per la salute.",                   
   "Indice IQA GIALLO: La qualità dell'aria è moderata. Lo standard dell'OMS è stato superato.",           
   "Indice IQA ARANCIONE: L'aria non è salubre per le persone vulnerabili gruppi.",                       
@@ -308,9 +297,6 @@ char *AQItext[] = {
 
 // WHO strings 
 char *WHOtext[] = {  
-//"0         1         2         3         4         5         6         7         8         9         0         1"
-//"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" 
-//"==============================================================================================================="
   "Indice OMS VERDE: Misurata su 24 ore, la qualità dell'aria è buona.",              
   "Indice OMS GIALLO: Misurata su 24 ore, la qualità dell'aria è moderata.",          
   "Indice OMS ARANCIONE: Misurata su 24 ore, la qualità dell'aria è malsana.",        

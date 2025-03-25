@@ -54,6 +54,7 @@ const char INTL_SCAN_NUM[] PROGMEM =              "Scan# ";
 const char INTL_LOC_NAME[] PROGMEM =              " Standortname: ";
 const char INTL_SENSOR_URL[] PROGMEM =            "Sensor @URL: ";
 const char INTL_PMPARSING_ERR[] PROGMEM =         "Fehler beim Parsen der PM-Json: ";
+const char INTL_HTTPCODE_ERR[] PROGMEM =          "HTTP-fehlercode: ";
 //
 #define    INTL_AVG24H_PM25                       "Durchs. 24 Std PM2,5: "
 #define    INTL_AVG24H_PM10                       "Durchs. 24 Std PM10: "
@@ -80,7 +81,7 @@ const char INTL_PMPARSING_ERR[] PROGMEM =         "Fehler beim Parsen der PM-Jso
 //
 #define    INTL_DISPLAY                           "Sensor.Community Anzeige"
 #define    INTL_BACK_TO_HOME_PAGE                 "Zurück zur Startseite"
-#define    INTL_BACK_TO_HOME_PAGE_DISCARD         "Änderungen verwerfen"
+#define    INTL_BACK_TO_HOME_PAGE_DISCARD         "Zurück zur Startseite / Änderungen verwerfen"
 #define    INTL_CONFIGURATION_REALLY_DELETE       "Möchten Sie die Konfiguration wirklich löschen?"
 #define    INTL_DELETE                            "Löschen"
 #define    INTL_CANCEL                            "Abbrechen"
@@ -103,11 +104,11 @@ const char INTL_ALERT[] PROGMEM =                 "Warnungen";
 #define    INTL_REPORT_ISSUE                      "Problem melden"
 const char INTL_PM[] PROGMEM =                    "Wählen Sie PM für Spitzen- und Durchschnittswerte...";
 // 
-#define    INTL_HOME                              "Startseite"
-const char INTL_CURRENT_DATA[] PROGMEM =          "Letzte Werte";
+#define    INTL_HOME                              "Home"
+const char INTL_CURRENT_DATA[] PROGMEM =          "Aktuelle Daten";
 const char INTL_CONFIGURATION[] PROGMEM =         "Konfiguration";
 const char INTL_ADVANCED_SETTINGS[] PROGMEM =     "Erweiterte Einstellungen";
-const char INTL_DELETE_CONFIG[] PROGMEM =         "Gespeicherte Konfiguration löschen";
+const char INTL_DELETE_CONFIG[] PROGMEM =         "Konfiguration löschen";
 const char INTL_RESTART_DISPLAY[] PROGMEM =       "Anzeige neu starten";
 // 
 const char INTL_WIFI_SETTINGS[] PROGMEM =         "WLAN-Einstellungen";
@@ -123,11 +124,11 @@ const char INTL_FS_WIFI_DESCRIPTION[] PROGMEM =   "AP im Konfigurationsmodus";
 const char INTL_NO_NETWORKS[] PROGMEM =           "Kein WLAN-Netzwerk gefunden";
 const char INTL_NETWORKS_FOUND[] PROGMEM =        "WLAN-Netzwerke gefunden: ";
 // 
-#define    INTL_WIFI_CONNECTION_LOST              "WLAN-Verbindung verloren"
+#define    INTL_WIFI_CONNECTION_LOST              "Verbindung verloren"
 #define    INTL_WIFI_CONNECT_TO                   "Bitte verbinden Sie sich mit:"
 #define    INTL_WIFI_SSID                         "SSID: "
 #define    INTL_WIFI_WIFI                         "WLAN: " 
-#define    INTL_CONFIG_BUSY                       "Konfiguration beschäftigt"
+#define    INTL_CONFIG_BUSY                       "Konfig wird ausgefürhrt"
 #define    INTL_PLEASE_RESTART                    "Bitte neu starten"
 // 
 const char INTL_LOCATION_0_15[] PROGMEM =         "Ort 0-15";
@@ -188,17 +189,6 @@ const char INTL_COMPARELOCATION[] PROGMEM =       "Standort vergleichen (gültig
 const char INTL_COMPARELOCATION2[] PROGMEM =      "Standort 2 vergleichen (gültig = 0 bis 31)";
 const char INTL_PMCHOICE[] PROGMEM =              "PM-Größe für Durchschnitt, Spitze und Grafiken (Standard: PM2,5)";
 // 
-const char INTL_PM_HUMI_TABLE[] PROGMEM =         "FEUCHTE";
-const char INTL_CORRECTHUMI[] PROGMEM =           " Richtige PM für Luftfeuchtigkeit";
-const char INTL_INTELLIHUMI[] PROGMEM =           " Intelligente Feuchte zwischen mehreren Sensoren";
-const char INTL_CORRECTHUMI_TITLE[] PROGMEM =     "Feuchtigkeitskorrektur für PM";
-const char INTL_REFERENCE_STATION[] PROGMEM =     "Lokale Referenzstation";
-const char INTL_REFERENCE_NAME[] PROGMEM =        "Name der Referenzstation";
-const char INTL_PM_DRYREFERENCE[] PROGMEM =       "API-ID Trockenreferenz PM";
-const char INTL_HUMI_DRYREFERENCE[] PROGMEM =     "API-ID Trockenreferenz Feuchtigkeit";
-const char INTL_PM_WETREFERENCE[] PROGMEM =       "API-ID Nassreferenz PM";
-const char INTL_HUMI_WETREFERENCE[] PROGMEM =     "API-ID Nassreferenz Feuchtigkeit";
-//
 const char INTL_AQI_WHO_TABLE[] PROGMEM =         "AQI und WHO";
 const char INTL_AQI_TABLE_TITLE[] PROGMEM =       "Übersetzung von AQI-Stufen in FARBE";
 const char INTL_WHO_TABLE_TITLE[] PROGMEM =       "Übersetzung von WHO-Stufen in FARBE";
@@ -279,6 +269,8 @@ char *dotMatrixText[] = {
   "Wetter: ",  
   "VOC- und NOx-Index: ",           // 30
   "Liest...",
+  "Server ausgefallen...", 
+  "Kein internet...", 
 };  
 
 // Compare strings 
@@ -296,9 +288,6 @@ char *compareText[] = {
 
 // AQI strings 
 char *AQItext[] = {  
-//"0         1         2         3         4         5         6         7         8         9         0         1"
-//"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" 
-//"==============================================================================================================="
   "AQI-index GRÜN: Die Luftqualität ist gut. Es bestehen keine Gesundheitsrisiken.",                           
   "AQI-index GELB: Die Luftqualität ist mäßig. Der WHO-Standard wurde übertroffen.",                           
   "AQI-index ORANGE: Die Luft ist für gefährdete Personen ungesund.",                                          
@@ -308,9 +297,6 @@ char *AQItext[] = {
 
 // WHO strings 
 char *WHOtext[] = {  
-//"0         1         2         3         4         5         6         7         8         9         0         1"
-//"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890" 
-//"==============================================================================================================="  
   "WHO-Index GRÜN: Die 24-Stunden-Luftqualität ist gut.",                
   "WHO-Index GELB: Die 24-Stunden-Luftqualität ist mäßig.",              
   "WHO-Index ORANGE: Die 24-Stunden-Luftqualität ist ungesund.",         

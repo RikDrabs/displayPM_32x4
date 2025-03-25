@@ -65,7 +65,7 @@ const char WEB_PAGE_HEADER_HEAD[] PROGMEM = "<meta name='viewport' content='widt
 <img src='" STATIC_PREFIX "?r=logo' alt='" INTL_BACK_TO_HOME_PAGE "' style='float:left;margin:16px' width='100' height='89'/></a>";
 
 const char WEB_PAGE_HEADER_BODY[] PROGMEM = "<h3 style='color:#fff;margin:0 10px'>" INTL_DISPLAY "</h3>\
-<br/><small style='color:#fff;font-weight:700'>&copy; 2019-2025 InfluencAir \
+<br/><small style='color:#fff;font-weight:700'>&copy; 2019-2025 InfluencAir - Luchtpijp \
 <br/>" INTL_FIRMWARE SOFTWARE_VERSION_STR " / " INTL_LANG "&nbsp;(" __DATE__ ")\
 <br/></small></div><div class='content'><h4>" INTL_HOME " {n} {t}</h4>";
 
@@ -87,10 +87,12 @@ const char WEB_UPTIME[] PROGMEM = "\
 const char WEB_READUPTO[] PROGMEM = "\
 <h4>" INTL_READ_UPTO "{r}</h4>";
 
-const char WEB_PAGE_FOOTER[] PROGMEM = "<br/><br/>\
+const char WEB_PAGE_FOOTER_INFO[] PROGMEM = "<br/><br/>\
 </div><footer class='footer'><div style='padding:16px'>\
+<a href='https://www.meetup.com/nl-nl/civic-lab-brussels/' target='_blank' rel='noreferrer' style='color:#3ba;'>\
+&copy; Open Knowledge Civic Lab Brussels </a>&nbsp;&nbsp\
 <a href='https://github.com/luchtpijp/displayPM' target='_blank' rel='noreferrer' style='color:#3ba;'>\
-&copy; DisplayPM on GitHub </a>&nbsp;&nbsp\
+ Source on GitHub </a>&nbsp;&nbsp\
 (<a href='mailto:influencair2017@gmail.com' target='_blank' rel='noreferrer'>" INTL_REPORT_ISSUE "</a>)\
 </div></footer></body></html>\r\n";
 

@@ -54,6 +54,7 @@ const char INTL_SCAN_NUM[] PROGMEM =              "Scan# ";
 const char INTL_LOC_NAME[] PROGMEM =              " Locatienaam: ";
 const char INTL_SENSOR_URL[] PROGMEM =            "Sensor @URL: ";
 const char INTL_PMPARSING_ERR[] PROGMEM =         "Fout bij parseren van PM-JSON: ";
+const char INTL_HTTPCODE_ERR[] PROGMEM =          "HTTP-foutcode: ";
 //
 #define    INTL_AVG24H_PM25                       "Gemidd. 24u PM2,5: "
 #define    INTL_AVG24H_PM10                       "Gemidd. 24u PM10: "
@@ -80,7 +81,7 @@ const char INTL_PMPARSING_ERR[] PROGMEM =         "Fout bij parseren van PM-JSON
 // 
 #define    INTL_DISPLAY                           "Sensor.Community Display"
 #define    INTL_BACK_TO_HOME_PAGE                 "Terug naar startpagina"
-#define    INTL_BACK_TO_HOME_PAGE_DISCARD         "Wijzigingen negeren"
+#define    INTL_BACK_TO_HOME_PAGE_DISCARD         "Terug naar startpagina / Wijzigingen negeren"
 #define    INTL_CONFIGURATION_REALLY_DELETE       "Weet u zeker dat u de configuratie wilt verwijderen?"
 #define    INTL_DELETE                            "Verwijderen"
 #define    INTL_CANCEL                            "Annuleren"
@@ -88,7 +89,7 @@ const char INTL_PMPARSING_ERR[] PROGMEM =         "Fout bij parseren van PM-JSON
 #define    INTL_RESTART                           "Herstarten"
 #define    INTL_UPTIME                            "Display-werktijd: "
 #define    INTL_READ_UPTO                         "Gelezen tot locatie: "
-#define    INTL_RESET_REASON                      "Vorige resetreden: "
+#define    INTL_RESET_REASON                      "Vorige reset-reden: "
 #define    INTL_FIRMWARE                          "Firmware: "
 const char INTL_SIGNAL_STRENGTH[] PROGMEM =       "Signaalsterkte ";
 const char INTL_SIGNAL_QUALITY[] PROGMEM =        "Signaalkwaliteit ";
@@ -103,11 +104,11 @@ const char INTL_ALERT[] PROGMEM =                 "Waarschuwingen";
 #define    INTL_REPORT_ISSUE                      "Probleem melden"
 const char INTL_PM[] PROGMEM =                    "Kies PM voor piek- en gemiddelde waarden...";
 //
-#define    INTL_HOME                              "Start"
-const char INTL_CURRENT_DATA[] PROGMEM =          "Laatste waarden";
+#define    INTL_HOME                              "Home"
+const char INTL_CURRENT_DATA[] PROGMEM =          "Huidige data";
 const char INTL_CONFIGURATION[] PROGMEM =         "Configuratie";
 const char INTL_ADVANCED_SETTINGS[] PROGMEM =     "Geavanceerde instellingen";
-const char INTL_DELETE_CONFIG[] PROGMEM =         "Opgeslagen configuratie verwijderen";
+const char INTL_DELETE_CONFIG[] PROGMEM =         "Configuratie verwijderen";
 const char INTL_RESTART_DISPLAY[] PROGMEM =       "Display herstarten";
 //
 const char INTL_WIFI_SETTINGS[] PROGMEM =         "WiFi-instellingen";
@@ -123,11 +124,11 @@ const char INTL_FS_WIFI_DESCRIPTION[] PROGMEM =   "AP in configuratiemodus";
 const char INTL_NO_NETWORKS[] PROGMEM =           "Geen WiFi-netwerk gevonden";
 const char INTL_NETWORKS_FOUND[] PROGMEM =        "WiFi-netwerken gevonden: ";
 //
-#define    INTL_WIFI_CONNECTION_LOST              "WiFi-verbinding verloren"
+#define    INTL_WIFI_CONNECTION_LOST              "Verbinding verloren"
 #define    INTL_WIFI_CONNECT_TO                   "Verbind met:"
 #define    INTL_WIFI_SSID                         "SSID: "
 #define    INTL_WIFI_WIFI                         "WiFi: " 
-#define    INTL_CONFIG_BUSY                       "Configuratie bezet"
+#define    INTL_CONFIG_BUSY                       "Configuratie bezig"
 #define    INTL_PLEASE_RESTART                    "Herstart aub"
 //
 const char INTL_LOCATION_0_15[] PROGMEM =         "Locatie 0-15";
@@ -140,8 +141,8 @@ const char INTL_SENSOR_API_4[] PROGMEM =          "API #4 (NOx/VOC) (of Telraams
 //
 const char INTL_DISPLAY_SETTINGS[] PROGMEM =      "Weergave-instellingen";
 const char INTL_DISPLAY_OPTIONS[] PROGMEM =       "Weergave-opties";
-const char INTL_MULTICOMPARE[] PROGMEM =          " Toon alleen sensoren met PM-overschrijdingen";
-const char INTL_SENSORMISSING[] PROGMEM =         " Toon inactieve sensoren";
+const char INTL_MULTICOMPARE[] PROGMEM =          " Toon alleen meters met PM-overschrijdingen";
+const char INTL_SENSORMISSING[] PROGMEM =         " Toon inactieve meters";
 const char INTL_SHOWPMPM[] PROGMEM =              " Toon PM-resultaten";
 const char INTL_SHOWPM1PM4[] PROGMEM =            " Toon PM1- en PM4-waarden";
 const char INTL_SHOWMETEO[] PROGMEM =             " Toon meteogegevens";
@@ -150,8 +151,8 @@ const char INTL_SHOWAQIADVICE[] PROGMEM =         " Toon AQI-advies";
 const char INTL_SHOWWHOADVICE[] PROGMEM =         " Toon WHO-advies";
 const char INTL_MULTIAVERAGE[] PROGMEM =          " Toon gemiddelde van alle meters";
 const char INTL_SHOWAVGNPEAK[] PROGMEM =          " Toon gemiddelde en piek over 24u.";
-const char INTL_SHOWCOMP[] =                      " Vergelijk 2 sensoren en toon resultaat";
-const char INTL_SHOWCOMPINSIDE[] PROGMEM =        " Vergelijk sensor #2 is binnenshuis";
+const char INTL_SHOWCOMP[] =                      " Vergelijk 2 meters en toon resultaat";
+const char INTL_SHOWCOMPINSIDE[] PROGMEM =        " Vergelijk meter 2 is binnenshuis";
 const char INTL_SHOWDNMS[] PROGMEM =              " Toon DNMS-gegevens";
 const char INTL_SHOWTELRAAM[] PROGMEM =           " Toon TELRAAM-gegevens";
 //
@@ -187,17 +188,6 @@ const char INTL_MAXGRAPH_PM10[] PROGMEM =         "PM10 waarde voor 200% (volled
 const char INTL_COMPARELOCATION[] PROGMEM =       "Vergelijk locatie (geldig = 0 tot 31)";
 const char INTL_COMPARELOCATION2[] PROGMEM =      "Vergelijk locatie 2 (geldig = 0 tot 31)";
 const char INTL_PMCHOICE[] PROGMEM =              "PM-grootte voor gemiddelde, piek en grafieken (standaard PM2,5)";
-//
-const char INTL_PM_HUMI_TABLE[] PROGMEM =         "VOCHTIGHEID";
-const char INTL_CORRECTHUMI[] PROGMEM =           " Corrigeer PM voor vochtigheid";
-const char INTL_INTELLIHUMI[] PROGMEM =           " Intelligente vochtigheid tussen meerdere meters";
-const char INTL_CORRECTHUMI_TITLE[] PROGMEM =     "Vochtigheidscorrectie op PM";
-const char INTL_REFERENCE_STATION[] PROGMEM =     "Lokaal referentie station";
-const char INTL_REFERENCE_NAME[] PROGMEM =        "Naam referentiestation";
-const char INTL_PM_DRYREFERENCE[] PROGMEM =       "API-ID PM droge referentie";
-const char INTL_HUMI_DRYREFERENCE[] PROGMEM =     "API-ID VOCHT. droge referentie";
-const char INTL_PM_WETREFERENCE[] PROGMEM =       "API-ID PM natte referentie";
-const char INTL_HUMI_WETREFERENCE[] PROGMEM =     "API-ID VOCHT. natte referentie";
 //
 const char INTL_AQI_WHO_TABLE[] PROGMEM =         "AQI en WHO";
 const char INTL_AQI_TABLE_TITLE[] PROGMEM =       "AQI-niveaus vertalen naar KLEUR";
@@ -279,6 +269,8 @@ char *dotMatrixText[] = {
   "Meteo: ", 
   "VOC & NOx index: ",              // 30
   "Leest...",
+  "Server uitgevallen...", 
+  "Geen internet...", 
 };  
 
 // Compare strings

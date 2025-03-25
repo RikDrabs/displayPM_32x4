@@ -54,6 +54,7 @@ const char INTL_SCAN_NUM[] PROGMEM =              "Scan# ";
 const char INTL_LOC_NAME[] PROGMEM =              " Nom de l'emplacement: ";
 const char INTL_SENSOR_URL[] PROGMEM =            "Capteur @URL: ";
 const char INTL_PMPARSING_ERR[] PROGMEM =         "Erreur d'analyse JSON PM: ";
+const char INTL_HTTPCODE_ERR[] PROGMEM =          "Code d'erreur HTTP: ";
 //
 #define    INTL_AVG24H_PM25                       "Moyenne 24h PM2,5: "
 #define    INTL_AVG24H_PM10                       "Moyenne 24h PM10: "
@@ -80,7 +81,7 @@ const char INTL_PMPARSING_ERR[] PROGMEM =         "Erreur d'analyse JSON PM: ";
 //
 #define    INTL_DISPLAY                           "Écran Sensor.Community"
 #define    INTL_BACK_TO_HOME_PAGE                 "Retour à la page d'accueil"
-#define    INTL_BACK_TO_HOME_PAGE_DISCARD         "Annuler les modifications"
+#define    INTL_BACK_TO_HOME_PAGE_DISCARD         "Retour à la page d'accueil / Annuler les modifications"
 #define    INTL_CONFIGURATION_REALLY_DELETE       "Voulez-vous vraiment supprimer la configuration ?"
 #define    INTL_DELETE                            "Supprimer"
 #define    INTL_CANCEL                            "Annuler"
@@ -103,11 +104,11 @@ const char INTL_ALERT[] PROGMEM =                 "Alertes";
 #define    INTL_REPORT_ISSUE                      "Signaler un problème"
 const char INTL_PM[] PROGMEM =                    "Choisissez PM pour les valeurs de pic et de moyenne...";
 // 
-#define    INTL_HOME                              "Accueil"
-const char INTL_CURRENT_DATA[] PROGMEM =          "Dernières valeurs";
+#define    INTL_HOME                              "Home"
+const char INTL_CURRENT_DATA[] PROGMEM =          "Données actuelles";
 const char INTL_CONFIGURATION[] PROGMEM =         "Configuration";
 const char INTL_ADVANCED_SETTINGS[] PROGMEM =     "Paramètres avancés";
-const char INTL_DELETE_CONFIG[] PROGMEM =         "Supprimer la configuration enregistrée";
+const char INTL_DELETE_CONFIG[] PROGMEM =         "Supprimer la configuration";
 const char INTL_RESTART_DISPLAY[] PROGMEM =       "Redémarrer l'affichage";
 // 
 const char INTL_WIFI_SETTINGS[] PROGMEM =         "Paramètres WiFi";
@@ -123,11 +124,11 @@ const char INTL_FS_WIFI_DESCRIPTION[] PROGMEM =   "AP en mode configuration";
 const char INTL_NO_NETWORKS[] PROGMEM =           "Aucun réseau WiFi trouvé";
 const char INTL_NETWORKS_FOUND[] PROGMEM =        "Réseaux WiFi trouvés:";
 // 
-#define    INTL_WIFI_CONNECTION_LOST              "Connexion WiFi perdue"
+#define    INTL_WIFI_CONNECTION_LOST              "Connection perdue"
 #define    INTL_WIFI_CONNECT_TO                   "Veuillez vous connecter à:"
 #define    INTL_WIFI_SSID                         "SSID: "
 #define    INTL_WIFI_WIFI                         "WiFi: " 
-#define    INTL_CONFIG_BUSY                       "Configuration occupée"
+#define    INTL_CONFIG_BUSY                       "Config en cours"
 #define    INTL_PLEASE_RESTART                    "Veuillez redémarrer"
 // 
 const char INTL_LOCATION_0_15[] PROGMEM =         "Emplacement 0-15";
@@ -187,17 +188,6 @@ const char INTL_MAXGRAPH_PM10[] PROGMEM =         "Valeur PM10 pour un affichage
 const char INTL_COMPARELOCATION[] PROGMEM =       "Comparer l'emplacement (valide = 0 à 31)";
 const char INTL_COMPARELOCATION2[] PROGMEM =      "Comparer l'emplacement 2 (valide = 0 à 31)";
 const char INTL_PMCHOICE[] PROGMEM =              "Taille de PM pour moyenne, pic et graphiques (par défaut PM2,5)";
-// 
-const char INTL_PM_HUMI_TABLE[] PROGMEM =         "HUMIDITE";
-const char INTL_CORRECTHUMI[] PROGMEM =           " Corriger les PM pour l'humidité";
-const char INTL_INTELLIHUMI[] PROGMEM =           " Humidité intelligente entre plusieurs capteurs";
-const char INTL_CORRECTHUMI_TITLE[] PROGMEM =     "Correction d'humidité des PM";
-const char INTL_REFERENCE_STATION[] PROGMEM =     "Station de référence locale";
-const char INTL_REFERENCE_NAME[] PROGMEM =        "Nom de la station de référence";
-const char INTL_PM_DRYREFERENCE[] PROGMEM =       "Référence sèche API-ID PM";
-const char INTL_HUMI_DRYREFERENCE[] PROGMEM =     "Référence sèche API-ID Humidité";
-const char INTL_PM_WETREFERENCE[] PROGMEM =       "Référence humide API-ID PM";
-const char INTL_HUMI_WETREFERENCE[] PROGMEM =     "Référence humide API-ID Humidité";
 // 
 const char INTL_AQI_WHO_TABLE[] PROGMEM =         "AQI et OMS";
 const char INTL_AQI_TABLE_TITLE[] PROGMEM =       "Traduction des niveaux AQI en COULEUR";
@@ -279,6 +269,8 @@ char *dotMatrixText[] = {
   "Météo: ", 
   "Indice COV & NOx: ",             // 30
   "Lecture...",
+  "Serveur en panne...", 
+  "Pas d'internet...",
 };  
 
 // Compare strings 
@@ -296,9 +288,6 @@ char *compareText[] = {
 
 // AQI strings 
 char *AQItext[] = {
-//"0         1         2         3         4         5         6         7         8         9         0         1"
-//"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
-//"==============================================================================================================="
   "Indice IQA VERT: La qualité de l'air est bonne. Il n'y a pas de risque pour la santé.",                      
   "Indice IQA JAUNE: La qualité de l'air est médiocre. Les normes OMS sont dépassées.",                         
   "Indice IQA ORANGE: La qualité de l'air peut provoquer des problèmes de santé aux personnes sensibles.",      
@@ -308,9 +297,6 @@ char *AQItext[] = {
 
 // WHO strings 
 char *WHOtext[] = {
-//"0         1         2         3         4         5         6         7         8         9         0         1"
-//"012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
-//"==============================================================================================================="  
   "Indice OMS VERT: La qualité de l'air sur 24h. est bonne.",                                   
   "Indice OMS JAUNE: La qualité de l’air sur 24h. est modérée.",                                
   "Indice OMS ORANGE: La qualité de l'air sur 24h. est malsaine.",                              

@@ -276,7 +276,7 @@ void buildTime(const uint8_t messageNbr)
 // Parameters:
 //   messageNbr:    message number to overwrite with time string.
 {
-  if (cfg::clockSeconds)
+  if (cfg::clockSeconds && timeCorrect)
   {
     // Prevent writing outside of buffer
     if (messageNbr < NUMSTR)                                   
@@ -290,11 +290,12 @@ void buildTime(const uint8_t messageNbr)
 
       // Add constructed line to message buffer
       String(displayString).toCharArray(messageBuffer[messageNbr], NUMCHR-4);
+      toDisplayLine++;                                          // point next message      
     }
   }
 }
 
-// Build welcome message, choosing from welcome1 and welcome2
+// Build date/time & welcome message, choosing from welcome1 and welcome2
 void buildWelcomeTime()
 {
   if (++welkomCount >= cfg::welkomInterval)
@@ -302,6 +303,9 @@ void buildWelcomeTime()
     // Prevent writing outside of buffer
     if (toDisplayLine < NUMSTR)                                 
     {
+      // mark display buffer not empty    
+      displayBufferEmpty = false;
+        
       displayString[0] = SCROLL_TEXT;                           // scrolling mode, 1 pixel spacing
       displayString[1] = '\0';                                  // terminate string
       if (betweenMessages)
@@ -322,7 +326,6 @@ void buildWelcomeTime()
       
       // Build date & time
       buildTime(toDisplayLine);                                 // build time message
-      toDisplayLine++;                                          // point next message
     }
     welkomCount = 0;                                            // restart the cycle
   } 
@@ -368,6 +371,9 @@ static void buildLocationMessage(uint8_t location, const char* message, bool bla
 //   message:        Terminating char. (:)
 //   blankPause:     true = insert a blank pause        
 {
+  // mark display buffer not empty    
+  displayBufferEmpty = false;
+
   // Blank line for 1/2 sec, if asked for.
   buildBlankLine(blankPause);  
 
@@ -398,50 +404,47 @@ static void buildPmMessage(const float pm_1, const float pm_25,
 //   pm_4:          PM4 value to show.
 //   pm_10:         PM10 value to show.
 {
-  if (cfg::showPmPm)
+  // Prevent writing outside of buffer
+  if (toDisplayLine < NUMSTR)                                 
   {
-    // Prevent writing outside of buffer
-    if (toDisplayLine < NUMSTR)                                 
+    // Ensure value(s) are OK
+    if ((pm_10 > -100.0f) || (pm_25 > -100.0f))
     {
-      // Ensure value(s) are OK
-      if ((pm_10 > -100.0f) || (pm_25 > -100.0f))
+      displayString[0] = SCROLL_TEXT;                         // scrolling mode, 1 pixel spacing
+      displayString[1] = '\0';                                // terminate string
+      strcat(displayString, dotMatrixText[STR_FS]);           // add begin text
+
+      if ((cfg::showPm1Pm4) && (pm_4 > -100.0f))
       {
-        displayString[0] = SCROLL_TEXT;                         // scrolling mode, 1 pixel spacing
-        displayString[1] = '\0';                                // terminate string
-        strcat(displayString, dotMatrixText[STR_FS]);           // add begin text
-
-        if ((cfg::showPm1Pm4) && (pm_4 > -100.0f))
-        {
-          strcat(displayString, " PM4: ");  
-          rounder(pm_4, 1).toCharArray(workString, 30);         // prepare value               
-          strcat(displayString, workString);                    // incorporate measured value
-          strcat(displayString, dotMatrixText[STR_UGRAM3]);     // final µg/m³ message
-        }
-        if ((cfg::showPm1Pm4) && (pm_1 > -100.0f))
-        {
-          strcat(displayString, " PM1: ");
-          rounder(pm_1, 1).toCharArray(workString, 30);         // prepare value          
-          strcat(displayString, workString);                    // incorporate measured value
-          strcat(displayString, dotMatrixText[STR_UGRAM3]);     // final µg/m³ message
-        }
-        if (pm_10 > -100.0f)
-        {
-          strcat(displayString, " PM10: ");
-          rounder(pm_10, 1).toCharArray(workString, 30);          // prepare value        
-          strcat(displayString, workString);                      // incorporate value
-          strcat(displayString, dotMatrixText[STR_UGRAM3]);       // add final µg/m³ message
-        }
-        if (pm_25 > -100.0f)
-        {
-          strcat(displayString, " PM2.5: ");
-          rounder(pm_25, 1).toCharArray(workString, 30);          // prepare value
-          strcat(displayString, workString);                      // incorporate value
-          strcat(displayString, dotMatrixText[STR_UGRAM3]);       // add final µg/m³ message
-        }
-
-        // Add constructed line to message buffer
-        String(displayString).toCharArray(messageBuffer[toDisplayLine++], NUMCHR-4);     
+        strcat(displayString, " PM4: ");  
+        rounder(pm_4, 1).toCharArray(workString, 30);         // prepare value               
+        strcat(displayString, workString);                    // incorporate measured value
+        strcat(displayString, dotMatrixText[STR_UGRAM3]);     // final µg/m³ message
       }
+      if ((cfg::showPm1Pm4) && (pm_1 > -100.0f))
+      {
+        strcat(displayString, " PM1: ");
+        rounder(pm_1, 1).toCharArray(workString, 30);         // prepare value          
+        strcat(displayString, workString);                    // incorporate measured value
+        strcat(displayString, dotMatrixText[STR_UGRAM3]);     // final µg/m³ message
+      }
+      if (pm_10 > -100.0f)
+      {
+        strcat(displayString, " PM10: ");
+        rounder(pm_10, 1).toCharArray(workString, 30);          // prepare value        
+        strcat(displayString, workString);                      // incorporate value
+        strcat(displayString, dotMatrixText[STR_UGRAM3]);       // add final µg/m³ message
+      }
+      if (pm_25 > -100.0f)
+      {
+        strcat(displayString, " PM2.5: ");
+        rounder(pm_25, 1).toCharArray(workString, 30);          // prepare value
+        strcat(displayString, workString);                      // incorporate value
+        strcat(displayString, dotMatrixText[STR_UGRAM3]);       // add final µg/m³ message
+      }
+
+      // Add constructed line to message buffer
+      String(displayString).toCharArray(messageBuffer[toDisplayLine++], NUMCHR-4);     
     }
   }
 }
@@ -1185,35 +1188,74 @@ void listNotConnected()
   // Prepare variables
   uint8_t loop = 0;
   bool titleDone = false;
-  //
-  // Limit to available buffer lines & installed locations
-  while ((toDisplayLine < NUMSTR) && (loop < locationsInstalled))
-  {
-    // Data available ?
-    if ((readPm10[loop] < -100.0f) && (readPm25[loop] < -100.0f))
+  bool dataFound = false;
+
+  // After full sensor scan ?
+  if (firstFullScan)
+  { 
+    // Check if any data received  
+    while ((toDisplayLine < NUMSTR) && (loop < locationsInstalled) && (!dataFound))
     {
-      // No, title done ?
-      if (!titleDone)
+      if ((readPm10[loop] > -100.0f) || (readPm25[loop] > -100.0f))
       {
-        // No, first blank line for 1/2 sec.
+        dataFound = true;
+      }
+      loop++;
+    }
+
+    // Option enabled and some data present ?  
+    if ((cfg::sensorMissing) && (dataFound))
+    {
+      // Limit to available buffer lines & installed locations
+      while ((toDisplayLine < NUMSTR) && (loop < locationsInstalled))
+      {
+        // Continue only if data available
+        if ((readPm10[loop] < -100.0f) && (readPm25[loop] < -100.0f))
+        {
+          // No, title done ?
+          if (!titleDone)
+          {
+            // No, first blank line for 1/2 sec.
+            buildBlankLine(true);
+
+            // Then, build title
+            buildMessage(dotMatrixText[STR_NODATA]);
+            titleDone = true;
+          }
+          // Not connected, show it.      
+          buildLocationMessage(loop, "", false);
+        }
+        loop++;
+      }
+      // Erase left-over messages
+      eraseBufferTillEnd();
+    } 
+    else
+    {
+      if (!dataFound)
+      {
+        // First blank line for 1/2 sec.
         buildBlankLine(true);
 
-        // Then, build title
-        buildMessage(dotMatrixText[STR_NODATA]);
-        titleDone = true;
+        if (internetUp)
+        {
+          // Server down, show it. 
+          buildMessage(dotMatrixText[STR_SERVERDOWN]);
+        }
+        else
+        {
+          // No internet, show it. 
+          buildMessage(dotMatrixText[STR_NOINTERNET]);
+        }
+        // Erase left-over messages
+        eraseBufferTillEnd();      
       }
-      // Not connected, show it.      
-      buildLocationMessage(loop, "", false);
     }
-    loop++;
   }
-  //
-  // Erase left-over messages
-  eraseBufferTillEnd();
 }
 
 // Calculate average & peak values over all sensors, to detect the deviating ones
-// Calculate anyway, for showing in web interface (Values)
+// Calculate anyway for showing in web interface (Values)
 static void calcAveragePeak()
 {
   // Continue only if full scan of locations done
@@ -1321,13 +1363,65 @@ static void calcAveragePeak()
   }
 }
 
-// Check if location can generate any active messages
+// Check if location has received data to show
 static bool activeLocation(uint8_t location)
 {
-  if ((cfg::showPmPm) && (readPm25[location] > -100.0f))   { return true; }
-  if ((cfg::showDnms) && (readLAeq[location] > -100.0f))   { return true; }
-  if ((cfg::showVoc) && (readVoc[location] > -100.0f))     { return true; }  
-  if ((cfg::showTelRaam) && (readCar[location] > -100.0f)) { return true; }
+  if (readPm25[location] > -100.0f)
+  { 
+    return true; 
+  }
+  if ((cfg::showDnms) && (readLAeq[location] > -100.0f))   
+  { 
+    return true; 
+  }
+  if ((cfg::showVoc) && (readVoc[location] > -100.0f))     
+  { 
+    return true; 
+  }  
+  if ((cfg::showTelRaam) && (readCar[location] > -100.0f)) 
+  { 
+    return true; 
+  }
+  return false;
+}
+
+// Check if location has data & is permitted to show it on display
+static bool permittedToShowReceivedData(uint8_t location)
+{
+  if (readPm25[location] > -100.0f)
+  {
+    if ((cfg::showPmPm) || (cfg::showComp) || (cfg::showCompInside) || (cfg::showMeteo))
+    { 
+      return true; 
+    }
+    if ((cfg::showAvgNpeak) || (cfg::showDnms) || (cfg::showVoc) || (cfg::showTelRaam))
+    {
+      return true; 
+    }
+  }  
+  if (cfg::multiAverage)
+  { 
+    return false; 
+  }
+  if (readPm25[location] > -100.0f)
+  {
+    if ((cfg::showGraph) || (cfg::showAqiAdvice) || (cfg::showWhoAdvice))
+    { 
+      return true; 
+    }
+  }
+  if ((cfg::showDnms) && (readLAeq[location] > -100.0f))   
+  { 
+    return true; 
+  }
+  if ((cfg::showVoc) && (readVoc[location] > -100.0f))     
+  { 
+    return true; 
+  }  
+  if ((cfg::showTelRaam) && (readCar[location] > -100.0f)) 
+  { 
+    return true; 
+  }
   return false;
 }
 
@@ -1336,17 +1430,24 @@ static void buildMessagesForOneLocation(bool blankPause)
 // Parameters:  
 //   blankPause:     true = insert a blank pause upfront 
 {
-  // First check if this is an active location with real results
-  if (activeLocation(locationOnDisplay))
-  {
-    float aqiValue;
+  float aqiValue; 
 
+  // First check if this is a location with real messages
+  if (permittedToShowReceivedData(locationOnDisplay))
+  {
     // Show location
     buildLocationMessage(locationOnDisplay, ": ", blankPause);
+ 
+    // Build Meteo Message
+    buildMeteoMessage(dotMatrixText[STR_WEER], readTemp[locationOnDisplay], 
+                        readHumi[locationOnDisplay], readPres[locationOnDisplay]);                   
 
-    // Build Particulate Matter message
-    buildPmMessage(readPm1[locationOnDisplay], readPm25[locationOnDisplay],
-                   readPm4[locationOnDisplay], readPm10[locationOnDisplay]);
+    if (cfg::showPmPm)
+    { 
+      // Build Particulate Matter message
+      buildPmMessage(readPm1[locationOnDisplay], readPm25[locationOnDisplay],
+                     readPm4[locationOnDisplay], readPm10[locationOnDisplay]);
+    }
 
     // Build average & peak message
     buildAvgNpeak(locationOnDisplay);
@@ -1364,10 +1465,6 @@ static void buildMessagesForOneLocation(bool blankPause)
     // Build Compare 2 meters message
     buildCompareTwo(locationOnDisplay);
 
-    // Build Meteo Message
-    buildMeteoMessage(dotMatrixText[STR_WEER], readTemp[locationOnDisplay], 
-                        readHumi[locationOnDisplay], readPres[locationOnDisplay]); 
-
     // Build VOC / NOx Message
     buildVocNoxMessage(dotMatrixText[STR_VOCNOX], readVoc[locationOnDisplay], 
                        readNox[locationOnDisplay]);
@@ -1382,14 +1479,13 @@ static void buildMessagesForOneLocation(bool blankPause)
                         readPedes[locationOnDisplay], readSpeed[locationOnDisplay]);
 
     // Erase left-over messages
-    eraseBufferTillEnd();
-
-    // Adjust to next location, for next call
-    locationOnDisplay = (++locationOnDisplay)%(locationsInstalled);    
+    eraseBufferTillEnd();                          
   }
+  // Adjust to next location, for next call
+  locationOnDisplay = (++locationOnDisplay)%(locationsInstalled);   
 }
 
-// Build next message for compare
+// Build next message for compare option
 static void buildNextCompare()
 {
   // Continue only if full scan of locations done
@@ -1420,17 +1516,18 @@ static void buildNextCompare()
     buildMessagesForOneLocation(false); 
   }
   else
+  // Full scan of locations is not yet done, show reading...
   {
     displayString[0] = FIXED_TEXT;                        // fixed mode, 1 pixel spacing    
     displayString[1] = '\0';                              // terminate string
-    strcat(displayString, dotMatrixText[STR_WAIT]);       // wait message
+    strcat(displayString, dotMatrixText[STR_READING]);    // reading message
 
     // Add constructed line to message buffer
     String(displayString).toCharArray(messageBuffer[toDisplayLine++], NUMCHR-4);
   }  
 }
 
-// Build next message for list  
+// Build next message for list option  
 static void buildNextList()
 {
   // Calculate avg value & make avg message
@@ -1447,33 +1544,8 @@ static void buildNextList()
       return;
     }
   }
-
   // Then display all data for this location, with blank line in front of location name
   buildMessagesForOneLocation(true);
-}
-
-// Build all messages for a new location
-static void buildNewLocation()
-{  
-  // Start writing message 0 to buffer
-  toDisplayLine = 0;
-
-  // Build next welcome message(s) & time once in a cycle
-  if (locationOnDisplay == 0)
-  {
-    buildWelcomeTime();
-  }
-
-  if (cfg::multiCompare)
-  {
-    // Build next location messages for compare
-    buildNextCompare();
-  }
-  else
-  {
-    // Build next location messages for list
-    buildNextList();
-  }
 }
 
 // Show the whole displaybuffer on Serial debug
@@ -1494,40 +1566,44 @@ static void showDisplayBufferForDebug()
   } 
 }
 
+// Build all messages for a new location
+static void buildNewLocation()
+{  
+  // Go around till real message found.
+  while (displayBufferEmpty)
+  {
+    // Start writing message 0 to buffer
+    toDisplayLine = 0;
+
+    // Build next welcome message(s) & time once in a while
+    if (locationOnDisplay == 0)
+    {
+      buildWelcomeTime();    }
+    if (cfg::multiCompare)
+    {
+      // Build next location messages for compare
+      buildNextCompare();
+    }
+    else
+    {
+      // Build next location messages for list
+      buildNextList();
+    }
+  }
+  // Show the whole displaybuffer on Serial debug
+  showDisplayBufferForDebug(); 
+}
+
 // Build messages for next group
 void buildNextGroupOfMessages()
 {
-  switch (buildingDisplayState)
-  {
-    case DISPL_LOCATIONS:
-      // Build next location        
-      buildNewLocation();
+  // Build next location        
+  buildNewLocation();
        
-      // End of location list reached ?
-      if (locationOnDisplay == 0)
-      {
-        // Next group will be not-working meters
-        buildingDisplayState = DISPL_NOTWORKING;
-      }
-      break; 
-
-    case DISPL_NOTWORKING:
-      // Option enabled & after full sensor scan ?
-      if ((cfg::sensorMissing) && (firstFullScan))
-      {
-        // Build display not-working meters           
-        listNotConnected();
-      } 
-      else
-      {
-        // Build next location        
-        buildNewLocation();        
-      } 
-      // Switch back display state
-      buildingDisplayState = DISPL_LOCATIONS;
-      break;               
+  // End of location list reached ?
+  if (locationOnDisplay == 0)
+  {
+    // Build display not-working meters           
+    listNotConnected();
   }
-
-  // Show the whole displaybuffer on Serial debug
-  showDisplayBufferForDebug();
 }
